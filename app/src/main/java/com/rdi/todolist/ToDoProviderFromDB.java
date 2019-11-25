@@ -23,35 +23,35 @@ public class ToDoProviderFromDB {
 
     static State mState;
 
-    private static String mToDoText;
+    private String mToDoText;
 
 
     ToDoProviderFromDB(MainActivity mainActivity) {
         mActivityRef = new WeakReference<>(mainActivity);
     }
 
-    public static void writeInDB(String toDoText) {
+    public void writeInDB(String toDoText) {
         mState = State.WRITE;
         mToDoText = toDoText;
         new ToDoWorkWithDBAsync().execute(0);
     }
 
-    public static void loadDataFromDB() {
+    public void loadDataFromDB() {
         mState = State.LOADING;
         new ToDoWorkWithDBAsync().execute(0);
     }
 
-    public static void updateDataFromDB(int toDoIDForUpdate, int isChecked) {
+    public void updateDataFromDB(int toDoIDForUpdate, int isChecked) {
         mState = State.UPDATE;
         new ToDoWorkWithDBAsync().execute(toDoIDForUpdate, isChecked);
     }
 
-    public static void deleteToDoFromDB(int toDoIDForDelete) {
+    public void deleteToDoFromDB(int toDoIDForDelete) {
         mState = State.DELETE;
         new ToDoWorkWithDBAsync().execute(toDoIDForDelete);
     }
 
-    private static class ToDoWorkWithDBAsync extends AsyncTask<Integer, Void, List<ToDo>> {
+    private class ToDoWorkWithDBAsync extends AsyncTask<Integer, Void, List<ToDo>> {
         @Override
         protected void onPreExecute() {
             switch (mState) {
@@ -82,7 +82,7 @@ public class ToDoProviderFromDB {
     }
 
 
-    private static List<ToDo> deleteFromDBInAsync(Integer toDoIDForDelete) {
+    private List<ToDo> deleteFromDBInAsync(Integer toDoIDForDelete) {
         MainActivity mainActivity = mActivityRef.get();
         SQLiteDatabase db = new ToDoListDbHelper(mainActivity).getWritableDatabase();
 
@@ -99,7 +99,7 @@ public class ToDoProviderFromDB {
     }
 
 
-    private static List<ToDo> writeInDBInAsync() {
+    private List<ToDo> writeInDBInAsync() {
         MainActivity mainActivity = mActivityRef.get();
         SQLiteDatabase db = new ToDoListDbHelper(mainActivity).getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -113,7 +113,7 @@ public class ToDoProviderFromDB {
     }
 
 
-    private static List<ToDo> updateDBInAcync(Integer toDoIDForUpdate, Integer isChecked) {
+    private List<ToDo> updateDBInAcync(Integer toDoIDForUpdate, Integer isChecked) {
         MainActivity mainActivity = mActivityRef.get();
         SQLiteDatabase db = new ToDoListDbHelper(mainActivity).getWritableDatabase();
 
@@ -135,7 +135,7 @@ public class ToDoProviderFromDB {
         return readFromDBInAsync();
     }
 
-    private static List<ToDo> readFromDBInAsync() {
+    private List<ToDo> readFromDBInAsync() {
         MainActivity mainActivity = mActivityRef.get();
         SQLiteDatabase db = new ToDoListDbHelper(mainActivity).getReadableDatabase();
         String[] projection = {
@@ -175,7 +175,7 @@ public class ToDoProviderFromDB {
     }
 
 
-    private static void setLoadingView() {
+    private void setLoadingView() {
         MainActivity mainActivity = mActivityRef.get();
         if (mainActivity != null) {
             mainActivity.mProgressBar.setVisibility(View.VISIBLE);
@@ -183,7 +183,7 @@ public class ToDoProviderFromDB {
         }
     }
 
-    private static void updateMainActivity(List<ToDo> toDoList) {
+    private void updateMainActivity(List<ToDo> toDoList) {
         MainActivity mainActivity = mActivityRef.get();
         if (mainActivity == null) {
             return;

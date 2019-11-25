@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     void setRecyclerViewAdapter() {
         mToDoRecyclerViewAdapter.setToDos(mToDoList);
+        mToDoRecyclerViewAdapter.setToDoProviderFromDB (mToDoProviderFromDB);
         recyclerView.setAdapter(mToDoRecyclerViewAdapter);
     }
 

@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ToDoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ToDo> mToDos;
+    private ToDoProviderFromDB mToDoProviderFromDB;
 
 
     public void setToDos(List<ToDo> toDos) {
@@ -61,7 +62,7 @@ public class ToDoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu_delete:
-                                ToDoProviderFromDB.deleteToDoFromDB(mToDos.get(position).getToDoID());
+                                mToDoProviderFromDB.deleteToDoFromDB(mToDos.get(position).getToDoID());
                                 break;
                         }
                         return false;
@@ -75,7 +76,7 @@ public class ToDoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
         ((ToDoHolder) holder).mCheckBoxIsDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ToDoProviderFromDB.updateDataFromDB(mToDos.get(position).getToDoID(), isChecked == true ? 1 : 0);
+                mToDoProviderFromDB.updateDataFromDB(mToDos.get(position).getToDoID(), isChecked == true ? 1 : 0);
             }
         });
     }
@@ -83,6 +84,10 @@ public class ToDoRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         return mToDos.size();
+    }
+
+    public void setToDoProviderFromDB(ToDoProviderFromDB toDoProviderFromDB) {
+        mToDoProviderFromDB = toDoProviderFromDB;
     }
 
     static class ToDoHolder extends RecyclerView.ViewHolder {
