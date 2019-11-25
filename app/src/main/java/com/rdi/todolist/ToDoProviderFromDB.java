@@ -19,9 +19,9 @@ public class ToDoProviderFromDB {
 
     enum State {LOADING, DELETE, UPDATE, WRITE}
 
-    private static WeakReference<MainActivity> mActivityRef;
+    private  WeakReference<MainActivity> mActivityRef;
 
-    static State mState;
+    State mState;
 
     private String mToDoText;
 
